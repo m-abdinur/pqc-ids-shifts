@@ -1,0 +1,47 @@
+{
+  "name": "Simulation-augmented baseline versus the stable-feature pipeline",
+  "written_utc": "2026-09-26",
+  "status": "frozen before any classifier fit; sha256 recorded in the run status",
+  "question": "If the defender already has the simulated transformation, is keeping only unchanged features (C3) better than training on original plus simulated data with all features (A), especially when the simulated size of the change is wrong?",
+  "why": "The retraining reference showed that a model trained on transformed data with the original labels reaches C1-level performance on transformed test data. A reviewer will ask why the pipeline discards features instead of augmenting the training data.",
+  "data_and_splits": "verified prepared matrix (X_sha256 b852fe..., y_sha256 e1f328...); stratified 70:30 splits, seeds 0-9; locked model settings, model seed 42; RF prediction n_jobs=1",
+  "models_per_split": {
+    "M_full": "70 features, original training data (the paper's C1/C2 model)",
+    "C3": "the paper's C3: main selection (KS+Holm against the hybrid768 transformation, MI >= 0.05), original training data",
+    "A": "augmented: 70 features, training rows = original training partition stacked with its hybrid768-transformed copy (same labels, 2 x 83,699 rows); MLP scaler fitted on the stacked data"
+  },
+  "assumed_shift_for_A_and_C3": "hybrid768 footprint, 1,460-byte added-packet reference (the paper's main transformation)",
+  "test_sets": {
+    "original": "untransformed test partition",
+    "well_specified": "hybrid768 at 1,460 bytes (same as assumed)",
+    "footprint_mis_specified": ["hybrid512", "pure768", "hybrid768_p2"],
+    "packet_size_mis_specified": ["hybrid768 with added-packet size 1,200", "hybrid768 with added-packet size 1,330"],
+    "partial_adoption": "25%, 50%, 75% of test rows per class transformed with hybrid768; row choice as in the locked partial-adoption script (RandomState(5000 + seed + int(level*1000)))",
+    "out_of_family": "hybrid768 plus the timing delay of the timing-shift plan (additive maxima), delays 0.1, 1, 10, 100 ms; neither A nor C3 anticipated it"
+  },
+  "integrity_checks": [
+    "M_full on original, well-specified and the three footprints reproduces the locked C1/C2 weighted F1 (1e-12)",
+    "C3 on original-shifted sets reproduces the locked C3 (1e-12)",
+    "M_full on the packet-size sets reproduces the recorded packet-size C2 split values (1e-10, source CSV has 12 decimals)",
+    "M_full on the partial-adoption sets reproduces the locked partial-adoption full-feature values (1e-12)",
+    "XGBoost differences up to 0.005 are recorded, not fatal, as in timing-shift amendment 1; RF, MLP and all selections must match exactly"
+  ],
+  "statistics": {
+    "per_test_set_and_model": ["A - C1", "C3 - C1", "C3 - A"],
+    "C1": "M_full on the original test partition",
+    "equivalence": "TOST +/-0.01 on A - C1 and C3 - C1, 90% paired t interval, Holm across the three models within each test set",
+    "difference": "C3 - A with the recorded procedure (Shapiro-Wilk, then paired t or Wilcoxon), two-sided, Holm across the three models within each test set",
+    "sensitivity": ["+/-0.005 margin", "corrected resampled t (Nadeau and Bengio 2003)"]
+  },
+  "decision_rule": {
+    "C3_advantage": "claimed only if, in at least one footprint or packet-size mis-specified test set, for the same model: C3 - A > 0 with Holm p < 0.05, AND C3 is equivalent to C1 at +/-0.01 while A is not",
+    "A_advantage": "reported wherever A - C3 > 0 with Holm p < 0.05",
+    "otherwise": "report that no robustness advantage of C3 over augmentation was shown on this dataset, and frame the pipeline as a feature audit rather than a mitigation"
+  },
+  "expectations_recorded_before_running": [
+    "C3 is invariant across footprint and packet-size sets by construction, because those settings change only screened-out features",
+    "A may match C1 in the well-specified case and on original test data; whether it holds under the mis-specified sets is the open question",
+    "both A and C3 are expected to lose under the out-of-family timing delay"
+  ],
+  "reporting": "all test sets and models are reported, whatever the outcome"
+}

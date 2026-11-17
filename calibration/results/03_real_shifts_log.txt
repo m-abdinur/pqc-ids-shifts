@@ -1,0 +1,46 @@
+## Filtering
+rows in the 3 scenarios: 10500
+scenario_id_m              anomaly_label  e9_conn_outcome  e1_alg_suite  e8_proto_context
+normal_X25519_rsa_cert     Normal         Success          x25519        TLSv1.3             3500
+normal_mlkem1024_rsa_cert  Normal         Success          mlkem1024     TLSv1.3             3500
+normal_mlkem768_rsa_cert   Normal         Success          mlkem768      TLSv1.3             3500
+rows kept (Normal & Success): 10500
+missing values in kept rows:
+client_size             0
+client_record_len       0
+server_record_len       0
+e2c_total_bytes         0
+e6b_flow_duration_ms    0
+
+## Per-group values (constant check)
+normal_X25519_rsa_cert | client_key_share_bytes: n=3500, distinct=1 -> 32 (n=3500)
+normal_X25519_rsa_cert | client_hello_record_len: n=3500, distinct=1 -> 285 (n=3500)
+normal_X25519_rsa_cert | server_record_len: n=3500, distinct=1 -> 5316 (n=3500)
+normal_X25519_rsa_cert | total_handshake_bytes: n=3500, distinct=1 -> 8206 (n=3500)
+normal_X25519_rsa_cert | duration ms: median=4.9200, mean=5.3762, distinct=2189
+normal_mlkem768_rsa_cert | client_key_share_bytes: n=3500, distinct=1 -> 1184 (n=3500)
+normal_mlkem768_rsa_cert | client_hello_record_len: n=3500, distinct=1 -> 1429 (n=3500)
+normal_mlkem768_rsa_cert | server_record_len: n=3500, distinct=1 -> 5322 (n=3500)
+normal_mlkem768_rsa_cert | total_handshake_bytes: n=3500, distinct=1 -> 10412 (n=3500)
+normal_mlkem768_rsa_cert | duration ms: median=4.9460, mean=5.3537, distinct=2123
+normal_mlkem1024_rsa_cert | client_key_share_bytes: n=3500, distinct=1 -> 1568 (n=3500)
+normal_mlkem1024_rsa_cert | client_hello_record_len: n=3500, distinct=1 -> 1813 (n=3500)
+normal_mlkem1024_rsa_cert | server_record_len: n=3500, distinct=1 -> 5325 (n=3500)
+normal_mlkem1024_rsa_cert | total_handshake_bytes: n=3500, distinct=1 -> 11279 (n=3500)
+normal_mlkem1024_rsa_cert | duration ms: median=4.9990, mean=5.3621, distinct=2040
+
+## PQC - classical differences
+primary: normal_mlkem768_rsa_cert - normal_X25519_rsa_cert | client_key_share_bytes: +1152
+primary: normal_mlkem768_rsa_cert - normal_X25519_rsa_cert | client_hello_record_len: +1144
+primary: normal_mlkem768_rsa_cert - normal_X25519_rsa_cert | server_record_len: +6
+primary: normal_mlkem768_rsa_cert - normal_X25519_rsa_cert | total_handshake_bytes: +2206
+primary: normal_mlkem768_rsa_cert - normal_X25519_rsa_cert | implied server-side (DERIVED): +1062
+primary: normal_mlkem768_rsa_cert - normal_X25519_rsa_cert | duration diff in median: +0.0260 ms, 95% CI [-0.0060, +0.0554]
+primary: normal_mlkem768_rsa_cert - normal_X25519_rsa_cert | duration diff in mean: -0.0225 ms, 95% CI [-0.1070, +0.0605]
+secondary: normal_mlkem1024_rsa_cert - normal_X25519_rsa_cert | client_key_share_bytes: +1536
+secondary: normal_mlkem1024_rsa_cert - normal_X25519_rsa_cert | client_hello_record_len: +1528
+secondary: normal_mlkem1024_rsa_cert - normal_X25519_rsa_cert | server_record_len: +9
+secondary: normal_mlkem1024_rsa_cert - normal_X25519_rsa_cert | total_handshake_bytes: +3073
+secondary: normal_mlkem1024_rsa_cert - normal_X25519_rsa_cert | implied server-side (DERIVED): +1545
+secondary: normal_mlkem1024_rsa_cert - normal_X25519_rsa_cert | duration diff in median: +0.0790 ms, 95% CI [+0.0477, +0.1078]
+secondary: normal_mlkem1024_rsa_cert - normal_X25519_rsa_cert | duration diff in mean: -0.0141 ms, 95% CI [-0.0953, +0.0664]

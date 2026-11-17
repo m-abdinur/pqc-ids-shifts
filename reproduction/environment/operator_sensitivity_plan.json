@@ -1,0 +1,61 @@
+{
+  "plan_version": 1,
+  "created_date_utc": "2026-09-21",
+  "status": "Separate prospective diagnostic; no replacement of locked experiment or manuscript claims",
+  "question": "How sensitive are main-hybrid768 C2 degradation and reselected C3 performance to the packet-extrema and zero-original-byte-rate rules?",
+  "motivating_evidence": "Verified feature audit: 58242/74127 eligible records have directional maximum/total violations; 17354 have positive added bytes but zero byte rate; one has forward minimum above mean.",
+  "dataset": "Exact verified 119571x70 original prepared matrix; no rows removed based on observed test results",
+  "footprint": {
+    "d_fwd_bytes": 1184.0,
+    "d_bwd_bytes": 1088.0,
+    "d_fwd_pkts": 1.0,
+    "d_bwd_pkts": 1.0,
+    "hdr_bytes": 40.0,
+    "added_pkt_size": 1460.0
+  },
+  "split_seeds": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9
+  ],
+  "test_fraction": 0.3,
+  "model_seed": 42,
+  "arms": [
+    "historical",
+    "byte_lengths",
+    "zero_byte_rate",
+    "combined"
+  ],
+  "changes": {
+    "historical": "Unchanged archived operator.",
+    "byte_lengths": "Added directional packet length = declared byte increment / declared packet increment. Update directional and overall maximum/minimum with these added lengths, using original extrema. All other columns equal the historical operator. Under hybrid768, added lengths are 1184 forward and 1088 backward; this is an explicit synthetic packet allocation, not measured traffic.",
+    "zero_byte_rate": "Only eligible records whose original forward+backward byte total is zero: new byte rate = original Flow Pkts/s * new total bytes / original total packet count. Require positive original duration and packet rate. No duration-unit assumption; assumes the recorded packet rate has the same flow duration. Other rows/columns remain on the archived branches.",
+    "combined": "Apply both declared changes."
+  },
+  "selection": "55 main candidates, archived train-only KS/Holm alpha .05 and MI >= .05; MI uses the original train values and archived 20000-row subsample rule. Recompute selection for every arm. Cache MI only when stable feature list and training data are identical.",
+  "models": "Archived RF/XGB/MLP constructors, scaler fit only on original training data for the relevant columns. C1/C2 reuse one baseline fit per split/model. C3 fits are shared across arms only if ordered selected columns and original training rows are identical.",
+  "fit_count": "60 to 150 fits; 30 baseline fits plus 30 to 120 C3 fits. Reuse depends only on identical ordered feature lists, never on performance.",
+  "maximum_fits": 150,
+  "expected_metric_rows": 270,
+  "RF_prediction": "n_jobs=1 for every diagnostic arm and C1; original fit constructor n_jobs=-1 retained. This prospective diagnostic setting is distinct from the historical reproduction workflow.",
+  "structural_gate": "Before fitting: original-data and historical-shift hashes match verified records; no ineligible changes; finite values; combined arm introduces no violations under the nine length-bound and four rate-sign rules at the existing primary audit tolerances. Mean/total equalities remain separately reported semantic diagnostics.",
+  "historical_selection_gate": "Each split historical stable/shifted lists, MI/KS values and selected order must agree with locked main records before that split is fitted.",
+  "statistics": "Descriptive paired split-level weighted-F1 changes, mean/min/max; ROC-AUC and per-class F1 also saved. No new p-values, confidence intervals or equivalence decisions until the overlapping-split uncertainty review.",
+  "output": "All 270 prediction/probability arrays, split positions, feature selection, fit-sharing IDs, structural counts, metrics, descriptive paired summaries, environment, hashes, warnings and logs.",
+  "preservation": "New output directory; no checkpoint resume; original code/results unchanged.",
+  "limitations": [
+    "Partial feature-level sensitivity, not full physical consistency",
+    "No packet trace, TLS framing, true PQC traffic or measured packetization",
+    "Timing, standard deviation/variance and subflow assumptions not repaired",
+    "Main representation and hybrid768 only; B3 and other footprints need separately scoped extensions if warranted",
+    "Inference from paired score changes concerns these implemented rules under fixed conditions, not all real PQC migration effects"
+  ],
+  "authorship": "Prepared with assistant assistance; explicit, inspectable new diagnostic code."
+}

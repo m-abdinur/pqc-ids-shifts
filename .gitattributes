@@ -1,0 +1,3 @@
+# Store and check out every file byte for byte. Without this, Git on Windows can change
+# line endings, which breaks the SHA-256 manifests and the October notebooks' file-size check.
+* -text

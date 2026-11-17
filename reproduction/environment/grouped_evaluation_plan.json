@@ -1,0 +1,46 @@
+{
+  "plan_id": "GROUPED_EVAL_001",
+  "plan_version": 1,
+  "created_date_utc": "2026-09-23",
+  "status": "Fixed before any grouped-split model is trained. Separate new experiment; locked results and manuscript claims are not replaced.",
+  "prepared_with": "Assistant assistance (Claude); author approved running the experiment on 2026-09-23",
+  "question": "Do the main C2 degradation and C3 recovery hold when exact-duplicate feature vectors can never appear in both the training and test partitions?",
+  "motivating_evidence": "30.6% of prepared rows are in exact-duplicate groups (DoS 53.6%, Bot 48.9%); 28.5% of random-split test rows have an exact training copy; 1,156 groups (3,140 rows) hold identical Benign and Infiltration vectors.",
+  "dataset": "Exact verified 119571 x 70 prepared matrix (X sha256 b852fe0225df0c7b3a3407c3d2c98bccfa2a6252b144f3e2e6d6ba5549df5e6e); no rows removed",
+  "groups": "One group per exact 70-feature vector (byte-identical float32 row). 89,064 groups.",
+  "label_conflict_policy": "Keep every row and its original label. Groups holding more than one label are kept whole and form their own 'conflict' stratum. No row is dropped or relabelled.",
+  "split": {
+    "method": "Stratified group split: groups are assigned to a stratum (their single class, or 'conflict'); within each stratum groups are visited in a seeded random order and added to the test set while the stratum's test rows stay at or below round(0.30 x stratum rows); overshooting groups are skipped. Train and test positions are then shuffled with the same seeded generator.",
+    "split_seeds": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+    "test_fraction": 0.3,
+    "gates": [
+      "No group appears in both partitions",
+      "Train and test are disjoint and cover all 119,571 rows",
+      "Each class test share within 0.29-0.31",
+      "Same seed gives identical positions (determinism)"
+    ]
+  },
+  "transformation": "Unchanged historical hybrid768 operator from the locked code; transformed-matrix hash must equal the verified audit record.",
+  "selection": "Unchanged main pipeline on training rows only: 55 candidates, KS two-sample with Holm (alpha 0.05) comparing original and transformed training rows, MI on original training values (20,000-row subsample, seed = split seed), keep MI >= 0.05 in stable-candidate order.",
+  "models": "Locked constructors (RF 200 trees; XGBoost 300 estimators, depth 6, lr 0.3; MLP (64,32), early stopping), model seed 42. MLP scaler fit on training columns only. C1 and C2 share one fitted 70-feature model; C3 is one fit on the selected columns. RF predictions use n_jobs=1, as in the operator-sensitivity run.",
+  "fit_count": 60,
+  "conditions": {
+    "C1": "70-feature model, original test rows",
+    "C2": "Same model, transformed test rows",
+    "C3": "Selected-feature model, transformed test rows restricted to the selected columns"
+  },
+  "primary_metric": "weighted F1",
+  "secondary_records": ["weighted one-vs-rest ROC-AUC", "per-class F1", "full predictions and probabilities"],
+  "statistics": {
+    "descriptive": "Split-level means, paired C2-C1 and C3-C1 differences, min/max, and the difference from the locked random-split means.",
+    "registered_procedure_reused": "The same weighted-F1 families as the main design, unchanged: paired test on C2-C1 and on C3-C1 (Shapiro-Wilk >= 0.05 -> paired t-test, else Wilcoxon), Holm across the three models; paired TOST on C3-C1 at +/-0.01 (primary) and +/-0.005 (sensitivity), Holm across the three models.",
+    "caveat": "Splits share rows, so the tests carry the same overlapping-split dependence as the main analysis. Per-class results are descriptive only (author decision on per-attack equivalence)."
+  },
+  "decision_rule": "The main claim is supported under grouped splits for a model if C2 is below C1 (Holm-adjusted p < 0.05) and C3-C1 meets TOST at +/-0.01 after Holm. A model that fails either is reported as a boundary. The +/-0.005 result is reported as sensitivity. The rule is fixed before results exist.",
+  "output": "Split positions and hashes, group-integrity checks, feature selections with KS D and MI, fit records, 90 prediction/probability files, metrics, statistics, environment, warnings and logs.",
+  "limitations": [
+    "Exact duplicates only; near-duplicates are not grouped",
+    "Main representation and historical hybrid768 operator only",
+    "Not a temporal or capture-day holdout"
+  ]
+}

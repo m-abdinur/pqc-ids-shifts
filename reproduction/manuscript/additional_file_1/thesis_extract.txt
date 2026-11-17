@@ -1,0 +1,28 @@
+Extract of two verified thesis tables used by af1_tables.py
+
+Table ‎4.12 Identifier-Free MLP MI-Threshold Sweep
+[TABLE]
+MI threshold | MLP C3 weighted F1 | C3−C1 | Equivalent within ±0.01
+0.0 | 0.8153 | -0.0228 | No
+0.01 | 0.8163 | -0.0218 | No
+0.05 | 0.8066 | -0.0315 | No
+0.1 | 0.7985 | -0.0396 | No
+0.2 | 0.7659 | -0.0722 | No
+[/TABLE]
+
+Table D.13 Efficiency Statistics for Training and Inference Time
+[TABLE]
+Design | Model | Comparison | Ratio | 95% CI | Change | Holm p | Conclusion
+Main | RF | Training time, C3 vs C1 | 0.700 | [0.663, 0.738] | -30.0% | <0.001 | C3 faster
+Main | XGB | Training time, C3 vs C1 | 0.499 | [0.462, 0.539] | -50.1% | 0.002 | C3 faster
+Main | MLP | Training time, C3 vs C1 | 0.392 | [0.249, 0.617] | -60.8% | 0.002 | C3 faster
+Main | RF | Inference time, C3 vs C2 | 1.338 | [1.245, 1.437] | +33.8% | <0.001 | C3 slower
+Main | XGB | Inference time, C3 vs C2 | 1.030 | [0.893, 1.188] | +3.0% | 0.647 | No clear timing difference
+Main | MLP | Inference time, C3 vs C2 | 0.659 | [0.601, 0.721] | -34.1% | 0.004 | C3 faster
+B3 | RF | Training time, C3 vs C1 | 0.736 | [0.718, 0.754] | -26.4% | <0.001 | C3 faster
+B3 | XGB | Training time, C3 vs C1 | 0.448 | [0.421, 0.477] | -55.2% | <0.001 | C3 faster
+B3 | MLP | Training time, C3 vs C1 | 0.826 | [0.642, 1.063] | -17.4% | 0.120 | No clear timing difference
+B3 | RF | Inference time, C3 vs C2 | 1.314 | [1.280, 1.348] | +31.4% | <0.001 | C3 slower
+B3 | XGB | Inference time, C3 vs C2 | 0.997 | [0.932, 1.067] | -0.3% | 0.930 | No clear timing difference
+B3 | MLP | Inference time, C3 vs C2 | 1.667 | [1.123, 2.474] | +66.7% | 0.034 | C3 slower
+[/TABLE]

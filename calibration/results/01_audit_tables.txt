@@ -1,0 +1,285 @@
+
+## 1. Shapes
+features (40010, 37), manifest (40010, 7), raw (40010, 28)
+
+## 1. raw_sessions columns
+scenario_id
+session_id
+source_ip
+dest_ip
+timestamp
+e1_alg_suite
+e2c_total_bytes
+e4_entropy_h
+e5_entropy_c
+e6_time_char
+e6b_flow_duration_ms
+e7_replay_flags
+e8_proto_context
+e9_conn_outcome
+e2_struct_ke.client_size
+e2_struct_ke.server_size
+e2_struct_ke.client_record_len
+e2_struct_ke.server_record_len
+e3_cert_info.sig_alg
+e3_cert_info.parsed
+e1b_tls12_alg_suite.tls_version
+e1b_tls12_alg_suite.ciphersuite
+e1b_tls12_alg_suite.key_exchange
+e2b_tls12_struct.tls_version
+e2b_tls12_struct.ciphersuite
+e2b_tls12_struct.key_type
+e2b_tls12_struct.key_length
+ID
+
+## 1. feature columns
+e2c_total_bytes
+e4_entropy_h
+e5_entropy_c
+e6_time_char
+e6b_flow_duration_ms
+e2_client_size
+e2_client_record_len
+e2_server_record_len
+e3_cert_parsed
+e1_alg_suite_Unknown(0x11eb)
+e1_alg_suite_Unknown(0x11ec)
+e1_alg_suite_mlkem1024
+e1_alg_suite_mlkem768
+e1_alg_suite_x25519
+e1_alg_suite_nan
+e8_proto_context_TLSv1.2_or_older
+e8_proto_context_TLSv1.3
+e9_conn_outcome_Failure
+e9_conn_outcome_Incomplete
+e9_conn_outcome_Success
+e3_sig_alg_Unknown(0x0028)
+e3_sig_alg_nan
+e1b_tls_version_SSL3.0
+e1b_tls_version_TLS1.0
+e1b_ciphersuite_2
+e1b_ciphersuite_54
+e1b_ciphersuite_60
+e2b_tls_version_SSL3.0
+e2b_tls_version_TLS1.0
+e2b_ciphersuite_2
+e2b_ciphersuite_54
+e2b_ciphersuite_60
+label
+split
+taxonomy
+ID
+IDp
+
+## 1. ID linkage
+raw IDs found in manifest: 40010 / 40010
+feature IDs found in manifest: 40010 / 40010
+duplicate IDs: raw 0, features 0, manifest 0
+
+## 2. sessions by key-exchange group (raw e1_alg_suite)
+e1_alg_suite
+x25519             14500
+mlkem768           14000
+mlkem1024          10500
+N/A                  500
+Unknown(0x11ec)      500
+Unknown(0x11eb)       10
+
+## 2. sessions by scenario x subtype x class x label x KEM
+scenario_id_m                      subtype              operational_class    anomaly_label  e1_alg_suite   
+anomaly_hybrid_pki                 hybrid_pki           Hybrid               Anomaly        mlkem768            500
+anomaly_kem_mismatch               kem_mismatch         Misconfig            Anomaly        mlkem768            500
+anomaly_pqc_over_tls12             pqc_over_tls12       Misconfig            Anomaly        N/A                 500
+model_gray_rsa_mimicry             gray_mimicry         Adversarial          Anomaly        Unknown(0x11ec)     500
+net_high_jitter_classic            high_jitter_classic  Classical            Anomaly        x25519              500
+net_high_latency_pqc               high_latency         Compliant_PQC        Anomaly        mlkem768            500
+net_high_loss_pqc                  high_loss            Compliant_PQC        Anomaly        mlkem768            500
+normal_X25519_ecdsa_p256_cert      baseline_normal      Classical            Normal         x25519             3500
+normal_X25519_ecdsa_p384_cert      baseline_normal      Classical            Normal         x25519             3500
+normal_X25519_rsa3072_cert         baseline_normal      Classical            Normal         x25519             3500
+normal_X25519_rsa_cert             baseline_normal      Compliant_X25519     Normal         x25519             3500
+normal_mlkem1024_mldsa65_cert      baseline_normal      Compliant_mlkem1024  Normal         mlkem1024          3500
+normal_mlkem1024_mldsa87_cert      baseline_normal      Compliant_mlkem1024  Normal         mlkem1024          3500
+normal_mlkem1024_rsa_cert          baseline_normal      Compliant_mlkem1024  Normal         mlkem1024          3500
+normal_mlkem768_mldsa65_cert       baseline_normal      Compliant_mlkem768   Normal         mlkem768           3500
+normal_mlkem768_mldsa87_cert       baseline_normal      Compliant_mlkem768   Normal         mlkem768           3500
+normal_mlkem768_rsa_cert           baseline_normal      Compliant_mlkem768   Normal         mlkem768           3500
+raf_alg_mismatch                   raf_alg_mismatch     Misconfig            Anomaly        mlkem768            500
+raf_downgrade_overt                raf_downgrade_overt  Hybrid               Anomaly        mlkem768            500
+raf_robustness_malformed_keyshare  malformed_keyshare   Failure              Anomaly        Unknown(0x11eb)      10
+threat_data_exfil                  data_exfil           Compliant_PQC        Anomaly        mlkem768            500
+
+## 2. outcome by scenario
+e9_conn_outcome                    Failure  Incomplete  Success
+scenario_id_m                                                  
+anomaly_hybrid_pki                       0           0      500
+anomaly_kem_mismatch                   500           0        0
+anomaly_pqc_over_tls12                 500           0        0
+model_gray_rsa_mimicry                   7         493        0
+net_high_jitter_classic                  0           0      500
+net_high_latency_pqc                     0           0      500
+net_high_loss_pqc                        0           0      500
+normal_X25519_ecdsa_p256_cert            0           0     3500
+normal_X25519_ecdsa_p384_cert            0           0     3500
+normal_X25519_rsa3072_cert               0           0     3500
+normal_X25519_rsa_cert                   0           0     3500
+normal_mlkem1024_mldsa65_cert            0           0     3500
+normal_mlkem1024_mldsa87_cert            0           0     3500
+normal_mlkem1024_rsa_cert                0           0     3500
+normal_mlkem768_mldsa65_cert             0           0     3500
+normal_mlkem768_mldsa87_cert             0           0     3500
+normal_mlkem768_rsa_cert                 0           0     3500
+raf_alg_mismatch                       500           0        0
+raf_downgrade_overt                      0           0      500
+raf_robustness_malformed_keyshare       10           0        0
+threat_data_exfil                        7         493        0
+
+## 3. client key-share size (bytes) by KEM group
+                    min  median     max  nunique
+e1_alg_suite                                    
+N/A                 NaN     NaN     NaN        0
+Unknown(0x11eb)    64.0    64.0    64.0        1
+Unknown(0x11ec)  1216.0  1216.0  1216.0        1
+mlkem1024        1568.0  1568.0  1568.0        1
+mlkem768         1184.0  1184.0  1184.0        1
+x25519             32.0    32.0    32.0        1
+
+## 3. server key-share size: non-missing values
+0
+
+## 4. per-scenario medians
+                                   client_size  client_record_len  server_record_len  e2c_total_bytes  e6b_flow_duration_ms
+scenario_id_m                                                                                                              
+anomaly_hybrid_pki                      1184.0             1429.0             5322.0          10412.0                  4.92
+anomaly_kem_mismatch                    1184.0             1429.0                2.0           1573.0                  0.13
+anomaly_pqc_over_tls12                     NaN              162.0                2.0            306.0                  0.15
+model_gray_rsa_mimicry                  1216.0             1519.0                NaN           1590.0                  0.00
+net_high_jitter_classic                   32.0              285.0             5316.0           8272.0                219.46
+net_high_latency_pqc                    1184.0             1429.0             5330.0          16006.0               3051.47
+net_high_loss_pqc                       1184.0             1429.0             5330.0          18340.0                  5.70
+normal_X25519_ecdsa_p256_cert             32.0              285.0             5330.0           7643.0                  3.52
+normal_X25519_ecdsa_p384_cert             32.0              285.0             5330.0           7735.0                  6.00
+normal_X25519_rsa3072_cert                32.0              285.0             5324.0           8606.0                  7.21
+normal_X25519_rsa_cert                    32.0              285.0             5316.0           8206.0                  4.92
+normal_mlkem1024_mldsa65_cert           1568.0             1813.0             5333.0          19207.0                  5.69
+normal_mlkem1024_mldsa87_cert           1568.0             1813.0             7502.0          22549.0                  6.02
+normal_mlkem1024_rsa_cert               1568.0             1813.0             5325.0          11279.0                  5.00
+normal_mlkem768_mldsa65_cert            1184.0             1429.0             5330.0          18340.0                  5.60
+normal_mlkem768_mldsa87_cert            1184.0             1429.0             7502.0          21682.0                  5.89
+normal_mlkem768_rsa_cert                1184.0             1429.0             5322.0          10412.0                  4.95
+raf_alg_mismatch                        1184.0             1429.0                2.0           1573.0                  0.13
+raf_downgrade_overt                     1184.0             1439.0             5325.0           9886.0                  5.21
+raf_robustness_malformed_keyshare         64.0              129.0                2.0            285.0                  0.21
+threat_data_exfil                       1184.0             1429.0                NaN           1500.0                  0.00
+
+## 4. per-scenario number of distinct values
+                                   client_size  client_record_len  server_record_len  e2c_total_bytes  e6b_flow_duration_ms
+scenario_id_m                                                                                                              
+anomaly_hybrid_pki                           1                  1                  1                1                   462
+anomaly_kem_mismatch                         1                  1                  1                1                   196
+anomaly_pqc_over_tls12                       0                  1                  1                1                   235
+model_gray_rsa_mimicry                       1                  1                  0                2                     8
+net_high_jitter_classic                      1                  1                  1                4                   498
+net_high_latency_pqc                         1                  1                  1                4                   498
+net_high_loss_pqc                            1                  1                  1                4                   482
+normal_X25519_ecdsa_p256_cert                1                  1                  1                4                  2004
+normal_X25519_ecdsa_p384_cert                1                  1                  1                4                  2186
+normal_X25519_rsa3072_cert                   1                  1                  1                1                  2261
+normal_X25519_rsa_cert                       1                  1                  1                1                  2189
+normal_mlkem1024_mldsa65_cert                1                  1                  1                1                  2777
+normal_mlkem1024_mldsa87_cert                1                  1                  1                2                  2768
+normal_mlkem1024_rsa_cert                    1                  1                  1                1                  2040
+normal_mlkem768_mldsa65_cert                 1                  1                  1                1                  2733
+normal_mlkem768_mldsa87_cert                 1                  1                  1                2                  2869
+normal_mlkem768_rsa_cert                     1                  1                  1                1                  2123
+raf_alg_mismatch                             1                  1                  1                1                   201
+raf_downgrade_overt                          1                  1                  1                1                   446
+raf_robustness_malformed_keyshare            1                  1                  1                1                    10
+threat_data_exfil                            1                  1                  0                2                     8
+
+## 4. per-scenario min / max total bytes
+                                     min    max
+scenario_id_m                                  
+anomaly_hybrid_pki                 10412  10412
+anomaly_kem_mismatch                1573   1573
+anomaly_pqc_over_tls12               306    306
+model_gray_rsa_mimicry              1590   1663
+net_high_jitter_classic             8036   8272
+net_high_latency_pqc               15770  16006
+net_high_loss_pqc                  18194  18340
+normal_X25519_ecdsa_p256_cert       7641   7644
+normal_X25519_ecdsa_p384_cert       7733   7736
+normal_X25519_rsa3072_cert          8606   8606
+normal_X25519_rsa_cert              8206   8206
+normal_mlkem1024_mldsa65_cert      19207  19207
+normal_mlkem1024_mldsa87_cert      22549  22615
+normal_mlkem1024_rsa_cert          11279  11279
+normal_mlkem768_mldsa65_cert       18340  18340
+normal_mlkem768_mldsa87_cert       21682  21748
+normal_mlkem768_rsa_cert           10412  10412
+raf_alg_mismatch                    1573   1573
+raf_downgrade_overt                 9886   9886
+raf_robustness_malformed_keyshare    285    285
+threat_data_exfil                   1500   1573
+
+## 4. per-scenario duration quantiles (ms)
+                                      0.05     0.50     0.95
+scenario_id_m                                               
+anomaly_hybrid_pki                    4.43     4.92     7.60
+anomaly_kem_mismatch                  0.12     0.13     0.40
+anomaly_pqc_over_tls12                0.11     0.15     0.39
+model_gray_rsa_mimicry                0.00     0.00     0.00
+net_high_jitter_classic             123.71   219.46   281.93
+net_high_latency_pqc               2760.84  3051.47  3315.05
+net_high_loss_pqc                     4.12     5.70    12.40
+normal_X25519_ecdsa_p256_cert         3.04     3.52     5.46
+normal_X25519_ecdsa_p384_cert         5.41     6.00     9.21
+normal_X25519_rsa3072_cert            6.56     7.21    11.48
+normal_X25519_rsa_cert                4.32     4.92     8.02
+normal_mlkem1024_mldsa65_cert         4.24     5.69    10.28
+normal_mlkem1024_mldsa87_cert         4.44     6.02    10.39
+normal_mlkem1024_rsa_cert             4.48     5.00     7.18
+normal_mlkem768_mldsa65_cert          4.14     5.60     9.66
+normal_mlkem768_mldsa87_cert          2.99     5.89    10.03
+normal_mlkem768_rsa_cert              4.40     4.95     7.29
+raf_alg_mismatch                      0.12     0.13     0.43
+raf_downgrade_overt                   4.60     5.21     8.06
+raf_robustness_malformed_keyshare     0.08     0.21     1.97
+threat_data_exfil                     0.00     0.00     0.00
+
+## 6. missing values per raw column (as NaN or 'N/A')
+scenario_id                             0
+session_id                              0
+source_ip                               0
+dest_ip                                 0
+timestamp                               0
+e1_alg_suite                          500
+e2c_total_bytes                         0
+e4_entropy_h                            0
+e5_entropy_c                         2510
+e6_time_char                         1000
+e6b_flow_duration_ms                    0
+e7_replay_flags                         0
+e8_proto_context                        0
+e9_conn_outcome                         0
+e2_struct_ke.client_size              500
+e2_struct_ke.server_size            40010
+e2_struct_ke.client_record_len          0
+e2_struct_ke.server_record_len       1000
+e3_cert_info.sig_alg                39510
+e3_cert_info.parsed                     0
+e1b_tls12_alg_suite.tls_version         0
+e1b_tls12_alg_suite.ciphersuite         0
+e1b_tls12_alg_suite.key_exchange        0
+e2b_tls12_struct.tls_version            0
+e2b_tls12_struct.ciphersuite            0
+e2b_tls12_struct.key_type               0
+e2b_tls12_struct.key_length         40010
+ID                                      0
+
+## 6. features vs raw agreement
+e2c_total_bytes equal: 1.0000
+e2_client_size equal: 0.9875
+
+## 6. exact duplicate rows in feature matrix (excluding ID/split)
+1405

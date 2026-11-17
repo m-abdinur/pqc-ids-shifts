@@ -1,0 +1,27 @@
+block,footprint,kem,feature,real_source,mine,real,diff_bytes,diff_pct,scenario,outcome,n,client_record_len,server_record_len,total,tls_bytes_incl_5B_headers,records,residual,predicted_residual,fits_66_per_record,total_diff,client_hello_diff,ciphertext_minus_x25519,server_record_diff,leftover,statistic,ci_low,ci_high,zero_in_ci,point1ms_in_ci
+bytes,"main hybrid ML-KEM-768 (+1,184/+1,088)",768,"Fwd bytes (TotLen Fwd Pkts, Subflow Fwd Byts)",Client Hello record diff (measured),1184.0,1144.0,40.0,3.5,,,,,,,,,,,,,,,,,,,,,
+bytes,"main hybrid ML-KEM-768 (+1,184/+1,088)",768,"Fwd bytes (TotLen Fwd Pkts, Subflow Fwd Byts)",client key-share diff (measured),1184.0,1152.0,32.0,2.78,,,,,,,,,,,,,,,,,,,,,
+bytes,"main hybrid ML-KEM-768 (+1,184/+1,088)",768,"Bwd bytes (TotLen Bwd Pkts, Subflow Bwd Byts)",implied server side (DERIVED),1088.0,1062.0,26.0,2.45,,,,,,,,,,,,,,,,,,,,,
+bytes,"main hybrid ML-KEM-768 (+1,184/+1,088)",768,Fwd + Bwd total,e2c_total_bytes diff (measured),2272.0,2206.0,66.0,2.99,,,,,,,,,,,,,,,,,,,,,
+bytes,"pure ML-KEM-768 (+1,152/+1,056)",768,"Fwd bytes (TotLen Fwd Pkts, Subflow Fwd Byts)",Client Hello record diff (measured),1152.0,1144.0,8.0,0.7,,,,,,,,,,,,,,,,,,,,,
+bytes,"pure ML-KEM-768 (+1,152/+1,056)",768,"Fwd bytes (TotLen Fwd Pkts, Subflow Fwd Byts)",client key-share diff (measured),1152.0,1152.0,0.0,0.0,,,,,,,,,,,,,,,,,,,,,
+bytes,"pure ML-KEM-768 (+1,152/+1,056)",768,"Bwd bytes (TotLen Bwd Pkts, Subflow Bwd Byts)",implied server side (DERIVED),1056.0,1062.0,-6.0,-0.56,,,,,,,,,,,,,,,,,,,,,
+bytes,"pure ML-KEM-768 (+1,152/+1,056)",768,Fwd + Bwd total,e2c_total_bytes diff (measured),2208.0,2206.0,2.0,0.09,,,,,,,,,,,,,,,,,,,,,
+bytes,"pure ML-KEM-1024 (+1,536/+1,536)",1024,"Fwd bytes (TotLen Fwd Pkts, Subflow Fwd Byts)",Client Hello record diff (measured),1536.0,1528.0,8.0,0.52,,,,,,,,,,,,,,,,,,,,,
+bytes,"pure ML-KEM-1024 (+1,536/+1,536)",1024,"Fwd bytes (TotLen Fwd Pkts, Subflow Fwd Byts)",client key-share diff (measured),1536.0,1536.0,0.0,0.0,,,,,,,,,,,,,,,,,,,,,
+bytes,"pure ML-KEM-1024 (+1,536/+1,536)",1024,"Bwd bytes (TotLen Bwd Pkts, Subflow Bwd Byts)",implied server side (DERIVED),1536.0,1545.0,-9.0,-0.58,,,,,,,,,,,,,,,,,,,,,
+bytes,"pure ML-KEM-1024 (+1,536/+1,536)",1024,Fwd + Bwd total,e2c_total_bytes diff (measured),3072.0,3073.0,-1.0,-0.03,,,,,,,,,,,,,,,,,,,,,
+header_check,,,,,,,,,anomaly_kem_mismatch,Failure,500.0,1429.0,2.0,1573.0,1441.0,2.0,132.0,132.0,True,,,,,,,,,,
+header_check,,,,,,,,,raf_alg_mismatch,Failure,500.0,1429.0,2.0,1573.0,1441.0,2.0,132.0,132.0,True,,,,,,,,,,
+header_check,,,,,,,,,anomaly_pqc_over_tls12,Failure,500.0,162.0,2.0,306.0,174.0,2.0,132.0,132.0,True,,,,,,,,,,
+header_check,,,,,,,,,threat_data_exfil,Incomplete,493.0,1429.0,,1500.0,1434.0,1.0,66.0,66.0,True,,,,,,,,,,
+header_check,,,,,,,,,threat_data_exfil,Failure,7.0,1429.0,,1573.0,1434.0,1.0,139.0,66.0,False,,,,,,,,,,
+header_check,,,,,,,,,model_gray_rsa_mimicry,Incomplete,493.0,1519.0,,1590.0,1524.0,1.0,66.0,66.0,True,,,,,,,,,,
+header_check,,,,,,,,,model_gray_rsa_mimicry,Failure,7.0,1519.0,,1663.0,1524.0,1.0,139.0,66.0,False,,,,,,,,,,
+header_check,,,,,,,,,raf_robustness_malformed_keyshare,Failure,10.0,129.0,2.0,285.0,141.0,2.0,144.0,132.0,False,,,,,,,,,,
+closure,,768,,,,,,,,,,,,,,,,,,2206.0,1144.0,1056.0,6.0,0.0,,,,,
+closure,,1024,,,,,,,,,,,,,,,,,,3073.0,1528.0,1536.0,9.0,0.0,,,,,
+duration,,768,,,,0.0259876251220703,,,,,,,,,,,,,,,,,,,difference in median,-0.005960464477539,0.0554323196411132,True,False
+duration,,768,,,,-0.0224720409938266,,,,,,,,,,,,,,,,,,,difference in mean,-0.1069994722093858,0.0605463283402578,True,False
+duration,,1024,,,,0.0790357589721679,,,,,,,,,,,,,,,,,,,difference in median,0.0476807355880737,0.1077681779861449,False,True
+duration,,1024,,,,-0.0140963963099887,,,,,,,,,,,,,,,,,,,difference in mean,-0.0952708465712412,0.0664008685520721,True,False

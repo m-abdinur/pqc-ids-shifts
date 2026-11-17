@@ -1,0 +1,36 @@
+section,group,pair,quantity,statistic,value,ci_low,ci_high,n_distinct,constant,distinct_values,note
+group,normal_X25519_rsa_cert,,n_sessions,count,3500.0,,,,,,
+group,normal_X25519_rsa_cert,,client_key_share_bytes,value,32.0,,,1,True,32 (n=3500),
+group,normal_X25519_rsa_cert,,client_hello_record_len,value,285.0,,,1,True,285 (n=3500),
+group,normal_X25519_rsa_cert,,server_record_len,value,5316.0,,,1,True,5316 (n=3500),
+group,normal_X25519_rsa_cert,,total_handshake_bytes,value,8206.0,,,1,True,8206 (n=3500),
+group,normal_X25519_rsa_cert,,handshake_duration_ms,median,4.920005798339844,,,2189,False,,lab Docker network (172.18.x.x)
+group,normal_X25519_rsa_cert,,handshake_duration_ms,mean,5.376198768615723,,,2189,False,,lab Docker network (172.18.x.x)
+group,normal_mlkem768_rsa_cert,,n_sessions,count,3500.0,,,,,,
+group,normal_mlkem768_rsa_cert,,client_key_share_bytes,value,1184.0,,,1,True,1184 (n=3500),
+group,normal_mlkem768_rsa_cert,,client_hello_record_len,value,1429.0,,,1,True,1429 (n=3500),
+group,normal_mlkem768_rsa_cert,,server_record_len,value,5322.0,,,1,True,5322 (n=3500),
+group,normal_mlkem768_rsa_cert,,total_handshake_bytes,value,10412.0,,,1,True,10412 (n=3500),
+group,normal_mlkem768_rsa_cert,,handshake_duration_ms,median,4.945993423461914,,,2123,False,,lab Docker network (172.18.x.x)
+group,normal_mlkem768_rsa_cert,,handshake_duration_ms,mean,5.353726727621896,,,2123,False,,lab Docker network (172.18.x.x)
+group,normal_mlkem1024_rsa_cert,,n_sessions,count,3500.0,,,,,,
+group,normal_mlkem1024_rsa_cert,,client_key_share_bytes,value,1568.0,,,1,True,1568 (n=3500),
+group,normal_mlkem1024_rsa_cert,,client_hello_record_len,value,1813.0,,,1,True,1813 (n=3500),
+group,normal_mlkem1024_rsa_cert,,server_record_len,value,5325.0,,,1,True,5325 (n=3500),
+group,normal_mlkem1024_rsa_cert,,total_handshake_bytes,value,11279.0,,,1,True,11279 (n=3500),
+group,normal_mlkem1024_rsa_cert,,handshake_duration_ms,median,4.999041557312012,,,2040,False,,lab Docker network (172.18.x.x)
+group,normal_mlkem1024_rsa_cert,,handshake_duration_ms,mean,5.362102372305734,,,2040,False,,lab Docker network (172.18.x.x)
+difference,,primary: normal_mlkem768_rsa_cert - normal_X25519_rsa_cert,client_key_share_bytes,exact difference,1152.0,,,,,,measured (field difference)
+difference,,primary: normal_mlkem768_rsa_cert - normal_X25519_rsa_cert,client_hello_record_len,exact difference,1144.0,,,,,,measured (field difference)
+difference,,primary: normal_mlkem768_rsa_cert - normal_X25519_rsa_cert,server_record_len,exact difference,6.0,,,,,,measured (field difference)
+difference,,primary: normal_mlkem768_rsa_cert - normal_X25519_rsa_cert,total_handshake_bytes,exact difference,2206.0,,,,,,measured (field difference)
+difference,,primary: normal_mlkem768_rsa_cert - normal_X25519_rsa_cert,implied_server_side_bytes,derived difference,1062.0,,,,,,"DERIVED, not measured: total-bytes diff minus Client Hello record diff"
+difference,,primary: normal_mlkem768_rsa_cert - normal_X25519_rsa_cert,handshake_duration_ms,difference in median,0.025987625122070312,-0.0059604644775390625,0.05543231964111328,,,,"95% percentile bootstrap, B=10000, seed=42; lab Docker network"
+difference,,primary: normal_mlkem768_rsa_cert - normal_X25519_rsa_cert,handshake_duration_ms,difference in mean,-0.022472040993826603,-0.10699947220938584,0.06054632834025786,,,,"95% percentile bootstrap, B=10000, seed=42; lab Docker network"
+difference,,secondary: normal_mlkem1024_rsa_cert - normal_X25519_rsa_cert,client_key_share_bytes,exact difference,1536.0,,,,,,measured (field difference)
+difference,,secondary: normal_mlkem1024_rsa_cert - normal_X25519_rsa_cert,client_hello_record_len,exact difference,1528.0,,,,,,measured (field difference)
+difference,,secondary: normal_mlkem1024_rsa_cert - normal_X25519_rsa_cert,server_record_len,exact difference,9.0,,,,,,measured (field difference)
+difference,,secondary: normal_mlkem1024_rsa_cert - normal_X25519_rsa_cert,total_handshake_bytes,exact difference,3073.0,,,,,,measured (field difference)
+difference,,secondary: normal_mlkem1024_rsa_cert - normal_X25519_rsa_cert,implied_server_side_bytes,derived difference,1545.0,,,,,,"DERIVED, not measured: total-bytes diff minus Client Hello record diff"
+difference,,secondary: normal_mlkem1024_rsa_cert - normal_X25519_rsa_cert,handshake_duration_ms,difference in median,0.07903575897216797,0.04768073558807373,0.10776817798614498,,,,"95% percentile bootstrap, B=10000, seed=42; lab Docker network"
+difference,,secondary: normal_mlkem1024_rsa_cert - normal_X25519_rsa_cert,handshake_duration_ms,difference in mean,-0.014096396309988712,-0.09527084657124123,0.06640086855207217,,,,"95% percentile bootstrap, B=10000, seed=42; lab Docker network"

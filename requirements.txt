@@ -1,0 +1,36 @@
+# Reproduction environment for
+# "What drives intrusion detection loss under a simulated ML-KEM-768 flow-feature shift?"
+#
+# Python 3.12.13. pip cannot pin the Python version, so create the environment with uv:
+#   python -m pip install uv==0.12.15
+#   uv venv --python 3.12.13 --managed-python .venv
+#   uv pip install --python .venv/bin/python --only-binary :all: -r requirements.txt
+#
+# These are the 21 pins of the reproduction environment in Supplementary Table S15
+# (environment/main_requirements.txt of the September 2026 reproduction runs).
+# They are not a complete lock of the original July 2026 runs. See README, "Environment".
+
+# Direct dependencies (Supplementary Table S15)
+numpy==2.0.2
+pandas==2.2.2
+scipy==1.16.3
+scikit-learn==1.6.1
+xgboost==3.2.0
+statsmodels==0.15.0
+
+# Transitive dependencies, pinned as resolved in the reproduction runs
+cloudpickle==3.1.2
+formulaic==1.2.2
+interface_meta==2.0.1
+joblib==1.6.0
+narwhals==2.26.0
+nvidia-nccl-cu12==2.31.2; platform_system == "Linux" and platform_machine == "x86_64"
+packaging==26.3
+patsy==1.0.3
+python-dateutil==2.9.0.post0
+pytz==2026.3.post1
+six==1.17.0
+threadpoolctl==3.7.0
+typing_extensions==4.16.0
+tzdata==2026.4
+wrapt==2.4.1

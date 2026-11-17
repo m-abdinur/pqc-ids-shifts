@@ -1,0 +1,91 @@
+{
+  "plan_version": 1,
+  "question": "How often do predefined feature relationships fail before and after each unchanged archived footprint?",
+  "classifier_fits": 0,
+  "dataset": "The exact 119571 by 70 prepared matrix and label vector verified in the seed-0 run",
+  "class_cap": 30000,
+  "sampling_seed": 42,
+  "footprints": {
+    "hybrid768": {
+      "d_fwd_bytes": 1184.0,
+      "d_bwd_bytes": 1088.0,
+      "d_fwd_pkts": 1.0,
+      "d_bwd_pkts": 1.0,
+      "hdr_bytes": 40.0,
+      "added_pkt_size": 1460.0
+    },
+    "pure768": {
+      "d_fwd_bytes": 1152.0,
+      "d_bwd_bytes": 1056.0,
+      "d_fwd_pkts": 1.0,
+      "d_bwd_pkts": 1.0,
+      "hdr_bytes": 40.0,
+      "added_pkt_size": 1460.0
+    },
+    "hybrid768_p2": {
+      "d_fwd_bytes": 1184.0,
+      "d_bwd_bytes": 1088.0,
+      "d_fwd_pkts": 2.0,
+      "d_bwd_pkts": 2.0,
+      "hdr_bytes": 40.0,
+      "added_pkt_size": 1460.0
+    },
+    "hybrid512": {
+      "d_fwd_bytes": 800.0,
+      "d_bwd_bytes": 768.0,
+      "d_fwd_pkts": 1.0,
+      "d_bwd_pkts": 1.0,
+      "hdr_bytes": 40.0,
+      "added_pkt_size": 1460.0
+    }
+  },
+  "absolute_tolerance": 1e-05,
+  "relative_tolerance": 1e-06,
+  "tolerance_rule": "Inequality violation: left > right + atol + rtol * max(abs(left), abs(right)). Equality uses absolute difference against the same tolerance. Strict sensitivity uses zero tolerances. Positive-rate sign rules have no tolerance.",
+  "tolerance_reason": "Primary diagnostic allows small float32 rounding differences; exact comparisons are reported separately. These are audit tolerances, not reproduction acceptance thresholds.",
+  "examples_per_rule_transition": 3,
+  "strata": [
+    "all records and each of the four classes",
+    "all, eligible and ineligible under the original bidirectional mask"
+  ],
+  "rules": [
+    "Directional and overall maxima do not exceed corresponding byte totals",
+    "Directional and overall packet-length means lie between minima and maxima",
+    "Directional mean agrees with directional bytes divided by packet count (extractor semantics diagnostic)",
+    "Positive byte/packet numerator and positive duration require a positive corresponding rate"
+  ],
+  "evaluable": "Finite compared values; positive relevant packet count for length rules; nonnegative length values for length bounds. Rate checks require finite positive duration and numerator. Evaluable counts are reported before and after.",
+  "transitions": [
+    "persistent violations",
+    "introduced among rows evaluable before and after",
+    "resolved among rows evaluable before and after",
+    "after violations in rows previously unevaluable",
+    "before violations in rows now unevaluable"
+  ],
+  "controls": [
+    "Original source hashes verified",
+    "Input CSV hashes and sizes match seed-0",
+    "Prepared X, y, feature order and shape match seed-0",
+    "Original matrix remains unchanged",
+    "Ineligible records and all columns outside the 23-column allowed-change set remain exactly unchanged",
+    "All transformed values remain finite"
+  ],
+  "outputs": [
+    "Per-rule counts by class and eligibility, with denominators",
+    "Primary and zero-tolerance sensitivity counts",
+    "Compact row masks for independent recounting",
+    "First three examples per rule, variant and transition",
+    "Separate original-zero-byte branch counts",
+    "Versions, source/data hashes, status, warnings and logs"
+  ],
+  "scope_boundaries": [
+    "No classifier fits or performance comparisons",
+    "No operator correction or replacement",
+    "Assumes corresponding packet-length fields use the same byte basis; a flag requires interpretation",
+    "Directional mean equality is a semantic diagnostic, not proof of an extractor defect",
+    "No claim of real TLS or PQC traffic validation",
+    "No duration-unit assumption, absolute-rate reconstruction, global-mean equality, standard-deviation reconstruction or subflow consistency proof",
+    "No confidence intervals or tests treating overlapping rows/splits as independent"
+  ],
+  "authorship": "New audit and notebook prepared with assistant assistance; original source preserved unchanged."
+}

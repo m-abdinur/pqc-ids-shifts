@@ -1,0 +1,26 @@
+{
+  "purpose": "Seed-0 C1-SF reproduction attempt using recorded top-level package versions",
+  "python": "3.12.13",
+  "packages": {
+    "numpy": "2.0.2",
+    "pandas": "2.2.2",
+    "scipy": "1.16.3",
+    "scikit-learn": "1.6.1",
+    "xgboost": "3.2.0"
+  },
+  "source": "C1-SF final environment file; SciPy from its statistical configuration",
+  "not_a_complete_historical_lock": true,
+  "not_reconstructed": [
+    "OS/glibc and CPU/BLAS build",
+    "Historical transitive dependencies",
+    "Original main/B3 per-fit environment"
+  ],
+  "statsmodels": "Not required for this fixed-feature C1-SF check; no KS or MI is refitted",
+  "acceptance": {
+    "weighted_f1_absolute_tolerance": 1e-12,
+    "per_class_f1_absolute_tolerance": 1e-12,
+    "roc_auc_absolute_tolerance": 5e-05,
+    "prediction_hashes_must_match": true,
+    "probability_hashes": "Record separately; not a bitwise-probability equivalence claim"
+  }
+}

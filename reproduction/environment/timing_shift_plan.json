@@ -1,0 +1,57 @@
+{
+  "name": "Unanticipated timing shift (review item 4.2)",
+  "written_utc": "2026-09-24",
+  "status": "frozen before any classifier fit; sha256 of this file is recorded in the run status",
+  "question": "How much does C3 lose when a shift that the screen did not anticipate also moves features that C3 keeps, and does screening against that shift restore performance?",
+  "data": {
+    "matrix": "verified prepared matrix, 119,571 x 70, X_sha256 b852fe0225df0c7b3a3407c3d2c98bccfa2a6252b144f3e2e6d6ba5549df5e6e, y_sha256 e1f328443429dcdfa8c521b1296c72c0c14ad3c17d17543065b4f81c6ab9d15a",
+    "splits": "stratified 70:30, split seeds 0-9, identical to the main experiment",
+    "models": "locked RF, XGBoost and MLP settings (option_b_full_experiment.make_model), model seed 42; RF prediction with n_jobs=1 as in the operator-sensitivity run"
+  },
+  "operator": {
+    "base": "historical main operator, hybrid768 footprint, applied unchanged (pilot_option_b.make_approx_mlkem)",
+    "added": "timing operator T_d applied after the base operator to eligible (bidirectional) rows only",
+    "units": "CICFlowMeter time features in microseconds",
+    "delay_grid_microseconds": [0, 100, 1000, 10000, 100000],
+    "delay_grid_meaning": "0 = integrity check; 0.1 ms, 1 ms, 10 ms and 100 ms are assumed handshake delays, not measured values",
+    "definition": {
+      "idea": "the handshake adds a delay d to one inter-arrival gap of the flow and to one gap in each direction that has at least two original packets; later packets move d later",
+      "Flow Duration": "+ d",
+      "Flow IAT Mean": "+ d / (N - 1), N = original total packets",
+      "Flow IAT Max": "primary: + d; sensitivity: max(Max, d)",
+      "Flow IAT Min": "+ d only when the flow has a single gap (N = 2); otherwise unchanged",
+      "Fwd IAT Tot / Bwd IAT Tot": "+ d when that direction has at least two original packets",
+      "Fwd IAT Mean / Bwd IAT Mean": "+ d / (n - 1) under the same condition",
+      "Fwd IAT Max / Bwd IAT Max": "primary: + d; sensitivity: max(Max, d); same condition",
+      "Fwd IAT Min / Bwd IAT Min": "+ d only when that direction has a single gap (n = 2)",
+      "rates (Flow Byts/s, Flow Pkts/s, Fwd Pkts/s, Bwd Pkts/s)": "base-operator value x FD/(FD + d) when FD > 0; when FD = 0, recomputed as base-operator count x 1e6 / d",
+      "unchanged": "IAT standard deviations, Active and Idle summaries (outside C3 candidacy), and every non-timing column beyond the base operator"
+    },
+    "variants": ["additive_max (primary)", "floor_max (sensitivity)"]
+  },
+  "conditions": {
+    "C1": "full 70 features, original train and test (fit once per split and model)",
+    "C2(d)": "C1 model evaluated on T_d(base(test))",
+    "C3u(d)": "unanticipated: the main C3 model (screen against base(train) only, as in the paper) evaluated on T_d(base(test))",
+    "C3a(d)": "anticipated: screen against T_d(base(train)), MI >= 0.05 on original training values, refit on the new subset, evaluate on T_d(base(test)); primary variant only"
+  },
+  "integrity_checks": [
+    "at d = 0, C1, C2 and C3u weighted F1 equal the locked main values for every split and model (tolerance 1e-12); otherwise stop",
+    "at d = 0, the C3a selection equals the locked main selection",
+    "T_d leaves ineligible rows and all non-declared columns identical to the base operator output; all values finite",
+    "the prepared matrix hash is unchanged at the end"
+  ],
+  "statistics": {
+    "primary_outcome": "C3u(d) - C1 weighted F1, paired over the ten splits",
+    "decision_rule": "TOST at +/-0.01 with a 90% paired t interval; Holm across the three models within each delay and variant; equivalent if Holm-adjusted TOST p < 0.05",
+    "sensitivity": ["+/-0.005 margin", "corrected resampled t (Nadeau and Bengio 2003), n_test/n_train = 35,872/83,699"],
+    "secondary": "C3a(d) - C1 with the same rule; C2(d) - C1 descriptive; per-class F1 descriptive",
+    "tolerance_summary": "largest tested d at which all three models are equivalent to C1 within +/-0.01 (primary variant, recorded procedure); stated as a property of this assumed operator and dataset only",
+    "no_other_tests": "no further hypothesis tests will be added after results are seen without being labelled as post hoc"
+  },
+  "expectations_recorded_before_running": [
+    "C3u will move away from C1 as d grows, because about ten of the 24 selected features are timing summaries",
+    "C3a will flag the changed timing features for d > 0 and should behave like the existing timing-free result"
+  ],
+  "reporting": "all delays and both variants are reported, whatever the outcome; results go to Section 5.6 (boundary) and Additional file 1 only after author approval"
+}

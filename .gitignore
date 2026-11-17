@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Jupyter and Google Colab
+.ipynb_checkpoints/
+sample_data/
+
+# Figure output (figures/code/out/)
+out/
+
+# Raw data: never commit these files
+# CIC-PQC_OAV v1 (put them in calibration/data/raw/)
+raw_sessions.jsonl
+ml_features_and_labels.csv
+scenario_manifest.csv
+# CSE-CIC-IDS2018
+Friday-16-02-2018_TrafficForML_CICFlowMeter.csv
+Friday-02-03-2018_TrafficForML_CICFlowMeter.csv
+Wednesday-28-02-2018_TrafficForML_CICFlowMeter.csv
+Thursday-01-03-2018_TrafficForML_CICFlowMeter.csv
+*_TrafficForML_CICFlowMeter.csv
+cicids2018/
